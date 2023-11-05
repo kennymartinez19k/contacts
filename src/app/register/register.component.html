@@ -1,0 +1,16 @@
+<ion-content>
+  <div class="container">
+    <ion-title class="ion-no-padding ion-text-center">Registrese</ion-title>
+    <p class="ion-text-center">Introduzca su usuario y contraseña para registrarse</p>
+    <form [formGroup]="formRegister" class="ion-margin">
+      <div class="item">
+        <ion-input formControlName="email" label="Usuario" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+      </div>
+      <div class="item">
+        <ion-input formControlName="password" label="Clave" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+      </div>
+    </form>
+    <ion-button expand="full" (click)="signUp()" class="ion-margin">Registrarse</ion-button>
+    <p class="ion-text-center">Tienes cuenta? <a (click)="navigate('login')" class="text-decoration">Iniciar sesion</a></p>
+  </div>
+</ion-content>
