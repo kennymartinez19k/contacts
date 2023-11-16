@@ -4,10 +4,10 @@
     <p class="ion-text-center">Introduzca su usuario y contraseña para iniciar sesion</p>
     <form [formGroup]="formLogin" class="ion-margin">
       <div class="item">
-        <ion-input formControlName="email" label="Email" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+        <ion-input formControlName="email" type="email" label="Email" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
       </div>
       <div class="item">
-        <ion-input formControlName="password" label="Clave" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+        <ion-input formControlName="password" type="password" label="Clave" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
       </div>
     </form>
     <ion-button expand="full" (click)="login()" class="ion-margin">Iniciar Sesion</ion-button>

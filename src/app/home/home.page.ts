@@ -1,28 +1,75 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   @ViewChild(IonModal) modal: any 
 
-  constructor() {}
+    constructor(private router: Router ) { 
+      // constructor() {
+    let usersString = localStorage.getItem("users")
+    console.log(usersString)
+    if(usersString){
+      this.users = JSON.parse(usersString)
+    }else{
+      this.users = []
+    }
+  }
   message: any = null
   name = null
-  hourIn = null
-  hourOut = null
+  lastName = null
+  id = null
+  rol = null
+  hourIn = new Date().getTime()
+  hourOut = new Date()
+  phone = null
   isModalOpen: any = false
+  isModalOpenNew = false
+  
   cancel() {
     this.isModalOpen = false
+    this.isModalOpenNew = false
+
   }
-  users = [1,2,3]
+
+  ngOnInit(): void {
+    let usersString = localStorage.getItem("users")
+    if(usersString){
+      this.users.push = JSON.parse(usersString)
+    }else{
+      this.users = []
+    }
+  }
+  users: any = []
 
   confirm() {
     this.isModalOpen = false
+    this.isModalOpenNew = false
+
+    let user = {
+      name: this.name,
+      lastName: this.lastName,
+      id: this.id,
+      rol: this.rol,
+      phone: this.phone,
+      hourIn: this.hourIn,
+      hourOut: this.hourOut
+    }
+
+    let usersString = localStorage.getItem("users")
+    if(usersString){
+      this.users =  JSON.parse(usersString)
+      this.users.push(user)
+    }else{
+      this.users = [user]
+    }
+    localStorage.setItem("users", JSON.stringify(this.users))
   }
 
   onWillDismiss(event: Event) {
@@ -32,8 +79,23 @@ export class HomePage {
     }
   }
 
-  setOpen(condition: Boolean = false){
+  setOpen(condition: Boolean = false, idx: any){
     this.isModalOpen = condition;
+    this.name =this.users[idx].name
+    this.lastName =this.users[idx].lastName
+    this.id =this.users[idx].id
+    this.rol =this.users[idx].rol
+    this.phone =this.users[idx].phone
+  }
+
+  deleteUser (index: any) {
+    this.users.splice(index,1)
+    localStorage.setItem("users", JSON.stringify(this.users))
+  }
+
+  loguaout () {
+    this.router.navigate(['login'])
+
   }
 
 }

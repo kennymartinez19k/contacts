@@ -1,7 +1,12 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="flex">
   <ion-toolbar>
     <ion-title>
       Contactos
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar (click)="loguaout()" class="logueaut">
+    <ion-title>
+      Cerrar Sesion
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,62 +20,24 @@
 
   <div>
     <ion-list>
-      <ion-item-sliding *ngFor="let user of users">
+      <ion-item-sliding *ngFor="let user of users; let idx = index">
         <ion-item>
           <div class="item-cnt">
             <img src="../../assets/usuario (1).png" alt="">
             <div class="info">
-              <ion-label>Alex Rodriguez</ion-label>
+              <ion-label>{{user.name}} {{user.lastName}}</ion-label>
+              <!-- <ion-label>{{user.id}}</ion-label> -->
+              <ion-label class="phone">{{user.phone}}</ion-label>
               <div class="times">
-                <p>Llegada: 09:00 AM</p>
-                <p>Salida: 05:00 PM</p>
+                <p>Entrada: 9:00AM</p>
+                <p>Salida: 6:00PM</p>
               </div>
             </div>
           </div>
         </ion-item>
         <ion-item-options>
-          <ion-item-option  (click)="setOpen(true)" expand="block" ><ion-icon slot="icon-only"  name="pencil"></ion-icon></ion-item-option>
-          <ion-item-option color="danger"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-item-option>
-        </ion-item-options>
-        <div class="online"></div>
-      </ion-item-sliding>
-      <ion-item-sliding>
-        <ion-item>
-          <div class="item-cnt">
-            <img src="../../assets/usuario (1).png" alt="">
-            <div class="info">
-              <ion-label>Luis Matos</ion-label>
-              <div class="times">
-                <p>Llegada: 09:00 AM</p>
-                <p>Salida: 05:00 PM</p>
-              </div>
-            </div>
-          </div>
-        </ion-item>
-    
-        <ion-item-options>
-          <ion-item-option  (click)="setOpen(true)" expand="block" ><ion-icon slot="icon-only"  name="pencil"></ion-icon></ion-item-option>
-          <ion-item-option color="danger"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-item-option>
-        </ion-item-options>
-        <div class="online"></div>
-      </ion-item-sliding>
-      <ion-item-sliding>
-        <ion-item>
-          <div class="item-cnt">
-            <img src="../../assets/usuario (1).png" alt="">
-            <div class="info">
-              <ion-label>Maria Alvarez</ion-label>
-              <div class="times">
-                <p>Llegada: 09:00 AM</p>
-                <p>Salida: 05:00 PM</p>
-              </div>
-            </div>
-          </div>
-        </ion-item>
-    
-        <ion-item-options>
-          <ion-item-option><ion-icon slot="icon-only" name="pencil"></ion-icon></ion-item-option>
-          <ion-item-option color="danger"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-item-option>
+          <ion-item-option  (click)="setOpen(true,idx)" expand="block" ><ion-icon slot="icon-only"  name="pencil"></ion-icon></ion-item-option>
+          <ion-item-option   (click)="deleteUser(idx)" color="danger"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-item-option>
         </ion-item-options>
         <div class="online"></div>
       </ion-item-sliding>
@@ -83,11 +50,11 @@
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
-            <ion-button (click)="cancel()">Cancel</ion-button>
+            <ion-button (click)="cancel()">Cancelar</ion-button>
           </ion-buttons>
-          <ion-title>Welcome</ion-title>
+          <ion-title>Editar</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+            <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -99,6 +66,42 @@
             type="text"
             placeholder="Nombre"
             [(ngModel)]="name"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca su Apellido"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Apellido"
+            [(ngModel)]="lastName"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca su Identificación"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Identificación"
+            [(ngModel)]="id"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca su Puesto"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Puesto"
+            [(ngModel)]="rol"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca su telefono"
+            labelPlacement="stacked"
+            type="number"
+            placeholder="Telefono"
+            [(ngModel)]="phone"
           ></ion-input>
         </ion-item>
         <ion-item>
@@ -126,5 +129,96 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
+  <ion-modal [isOpen]="isModalOpenNew" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Crear Contacto</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Introduzca su nombre"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Nombre"
+            [(ngModel)]="name"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca su Apellido"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Apellido"
+            [(ngModel)]="lastName"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca su Identificación"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Identificación"
+            [(ngModel)]="id"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca su Puesto"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Puesto"
+            [(ngModel)]="rol"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca su telefono"
+            labelPlacement="stacked"
+            type="number"
+            placeholder="Telefono"
+            [(ngModel)]="phone"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <div>
+            <p>Hora de entrada: </p>
+            <ion-datetime-button datetime="hourOut"></ion-datetime-button>
+          </div>
+          <ion-modal class="modal-time" [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime id="datetime1" value="2022-04-21T22:20:00"  presentation="time"></ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-item>
+        <ion-item>
+          <div>
+            <p>Hora de salida: </p>
+            <ion-datetime-button datetime="datetime1"></ion-datetime-button>
+          </div>
+          <ion-modal class="modal-time" [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime id="datetime1" value="hourOut"  presentation="time"></ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="isModalOpenNew = true">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   
 </ion-content>
