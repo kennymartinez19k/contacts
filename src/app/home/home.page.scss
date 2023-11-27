@@ -84,4 +84,15 @@ ion-title{
 }
 .logueaut {
   text-align: center;
+
+}
+ion-card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#shadow-root .button-native {
+  padding-inline-start: none;
+  padding-inline-end: none;
 }

@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   async login({ email, password }: any) {
-      await signInWithEmailAndPassword(this.auth, email, password);
+     return await signInWithEmailAndPassword(this.auth, email, password);
   }
 
 

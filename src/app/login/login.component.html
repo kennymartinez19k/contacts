@@ -3,15 +3,37 @@
     <ion-title class="ion-no-padding ion-text-center">Iniciar sesion</ion-title>
     <p class="ion-text-center">Introduzca su usuario y contraseña para iniciar sesion</p>
     <form [formGroup]="formLogin" class="ion-margin">
-      <div class="item">
-        <ion-input formControlName="email" type="email" label="Email" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+      <!-- <div class="item">
+        <ion-input formControlName="email" (keyup)="isBtnDisable()" type="email" label="Email" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
       </div>
       <div class="item">
-        <ion-input formControlName="password" type="password" label="Clave" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
-      </div>
+        <ion-input formControlName="password" (keyup)="isBtnDisable()" type="password" label="Clave" label-placement="floating" fill="outline" placeholder="Enter text">
+          <ion-icon name="eye-outline"></ion-icon>
+        </ion-input><ion-icon slot="end" name="eye-outline"></ion-icon>
+      </div> -->
+     
+     
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" name="email" formControlName="email" (keyup)="isBtnDisable()"></ion-input>
+        <ion-button slot="end" fill="clear"  class="seeClient">
+          <ion-icon name="mail-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Clave</ion-label>
+        <ion-input [type]="changeType" name="psw" formControlName="password" (keyup)="isBtnDisable()"></ion-input>
+        <ion-button slot="end" fill="clear"  class="seeClient" (click)="isChangeType(changeType)">
+          <ion-icon *ngIf="showPsw == true" name="eye-outline" color="warning" class="iconEye"></ion-icon>
+          <ion-icon *ngIf="showPsw == false" name="eye-off-outline" color="warning" class="iconEye"></ion-icon>
+        </ion-button>
+      </ion-item>
     </form>
-    <ion-button expand="full" (click)="login()" class="ion-margin">Iniciar Sesion</ion-button>
-    <p class="ion-text-center">Aun no tienes cuenta? <a (click)="navigate('register')" class="text-decoration">Registrate</a></p>
+    <ion-button id="open-loading" expand="full" [disabled]="isDisable" (click)="login()" class="ion-margin">Iniciar Sesion</ion-button>
+    <p class="ion-text-center">Registrar nuevo Integrante <a (click)="navigate('register')" class="text-decoration">Iniciar Registro</a></p>
 
   </div>
 </ion-content>
+
+<!-- <ion-button id="open-loading">Show Loading</ion-button> -->
+<ion-loading trigger="open-loading" message="Loading..." [duration]="3000" spinner="circles"></ion-loading>

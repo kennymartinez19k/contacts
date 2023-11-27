@@ -4,11 +4,12 @@
     <p class="ion-text-center">Introduzca los siguientes datos para registrar el nuevo integrante</p>
     <form [formGroup]="formRegister" class="ion-margin">
       <div class="item">
-        <ion-input formControlName="email" label="Usuario del Admin" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+        <ion-input formControlName="userRegistered" label="Usuario del Admin" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
       </div>
       <div class="item">
         <ion-input formControlName="password" label="Clave del Admin" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
       </div>
+      <ion-label>Datos del nuevo Usuario</ion-label>
       <div class="item">
         <ion-input formControlName="name" label="Nombre" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
       </div>
@@ -16,16 +17,27 @@
         <ion-input formControlName="lastname" label="Apellido" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
       </div>
       <div class="item">
+        <ion-input formControlName="email" label="Email" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+      </div>
+      <div class="item">
+        <ion-input formControlName="key" label="Clave" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+      </div>
+      <div class="item">
         <ion-input formControlName="position" label="Puesto" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
       </div>
       <div class="item">
-        <ion-input formControlName="role" label="Rol" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+        <ion-select label="Seleccione el puesto" label-placement="floating" fill="outline" formControlName="role">
+          <ion-select-option *ngFor="let rol of roles" [value]="rol">{{rol}}</ion-select-option>
+        </ion-select>
       </div>
       <div class="item">
         <ion-input formControlName="id" label="ID / Cedula" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
       </div>
       <div class="item">
         <ion-input formControlName="phone" label="Telefono" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
+      </div>
+      <div class="item">
+        <ion-input formControlName="file" type="file" label="Imagen" label-placement="floating" fill="outline" placeholder="Seleccione el Archivo"></ion-input>
       </div>
     </form>
     <ion-button expand="full" (click)="signUp()" class="ion-margin">Registrarse</ion-button>

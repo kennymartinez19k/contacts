@@ -9,19 +9,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent  implements OnInit {
-
+  roles = [
+    "Admin", "Usuario"
+  ];
   formRegister: FormGroup;
     
     constructor(public authService: AuthService, private router: Router ) { 
     this.formRegister = new FormGroup({
+      userRegistered: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required]),
+      key: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       lastname: new FormControl('', [Validators.required]),
       position: new FormControl('', [Validators.required]),
       id: new FormControl('', [Validators.required]),
       phone: new FormControl('', [Validators.required]),
-      role: new FormControl('', [Validators.required])
+      role: new FormControl('', [Validators.required]),
+      file: new FormControl(''),
     })
   }
 
@@ -34,6 +39,7 @@ export class RegisterComponent  implements OnInit {
     this.authService.register(form).then( () => {
       console.log("Se registro")
     })
+    // this.formRegister.value = ''
   }
   navigate(path: string){
     this.router.navigate([path])

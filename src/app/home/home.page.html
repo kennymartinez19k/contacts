@@ -21,25 +21,78 @@
   <div>
     <ion-list>
       <ion-item-sliding *ngFor="let user of users; let idx = index">
-        <ion-item>
+        <ion-card>
+          <ion-card-header>
+            <div>
+              <div  class="item-cnt">
+              <img src="../../assets/usuario (1).png" alt="">
+              <ion-card-title>{{user.name}} {{user.lastName}}</ion-card-title>
+            </div>
+            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+
+            </div>
+            <div>
+              <ion-button fill="clear" (click)="setOpen(true,idx)"><ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                 <!-- <ion-icon slot="icon-only"  name="pencil"></ion-icon> -->
+                </ion-button>
+              <ion-button fill="clear" (click)="deleteUser(idx)" color="danger"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
+
+            </div>
+          </ion-card-header>
+        
+          <ion-card-content>
+            <ion-label>Puesto: {{user.position}} </ion-label>
+            <div class="times">
+              <!-- <ion-input></ion-input> -->
+              <p>Llegada: {{user.hourIn}}</p>
+              <p>Salida: {{user.hourOut}}</p>
+              
+            </div>
+          </ion-card-content>
+        
+        </ion-card>
+
+        <!-- <ion-item>
           <div class="item-cnt">
             <img src="../../assets/usuario (1).png" alt="">
             <div class="info">
               <ion-label>{{user.name}} {{user.lastName}}</ion-label>
-              <!-- <ion-label>{{user.id}}</ion-label> -->
+              !-- <ion-label>{{user.id}}</ion-label> --
               <ion-label class="phone">{{user.phone}}</ion-label>
               <div class="times">
                 <p>Entrada: 9:00AM</p>
                 <p>Salida: 6:00PM</p>
+                <ion-item>
+                  <div>
+                    <p>Hora de salida: </p>
+                    <ion-datetime-button datetime="datetime1"></ion-datetime-button>
+                  </div>
+                  <ion-modal class="modal-time" [keepContentsMounted]="true">
+                    <ng-template>
+                      <ion-datetime id="datetime1" value="2022-04-21T22:20:00"  presentation="time"></ion-datetime>
+                    </ng-template>
+                  </ion-modal>
+                </ion-item>
+                <ion-item>
+                  <div>
+                    <p>Hora de salida: </p>
+                    <ion-datetime-button datetime="datetime1"></ion-datetime-button>
+                  </div>
+                  <ion-modal class="modal-time" [keepContentsMounted]="true">
+                    <ng-template>
+                      <ion-datetime id="datetime1" value="2022-04-21T22:20:00"  presentation="time"></ion-datetime>
+                    </ng-template>
+                  </ion-modal>
+                </ion-item>
               </div>
             </div>
           </div>
-        </ion-item>
+        </ion-item> -->
         <ion-item-options>
           <ion-item-option  (click)="setOpen(true,idx)" expand="block" ><ion-icon slot="icon-only"  name="pencil"></ion-icon></ion-item-option>
           <ion-item-option   (click)="deleteUser(idx)" color="danger"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-item-option>
         </ion-item-options>
-        <div class="online"></div>
+        <!-- <div class="online"></div> -->
       </ion-item-sliding>
     </ion-list>
   </div>
@@ -92,7 +145,7 @@
             labelPlacement="stacked"
             type="text"
             placeholder="Puesto"
-            [(ngModel)]="rol"
+            [(ngModel)]="position"
           ></ion-input>
         </ion-item>
         <ion-item>
@@ -177,9 +230,15 @@
             labelPlacement="stacked"
             type="text"
             placeholder="Puesto"
-            [(ngModel)]="rol"
+            [(ngModel)]="position"
           ></ion-input>
         </ion-item>
+        <ion-item>
+          <ion-select label="Seleccione el Rol" placeholder="rol" [(ngModel)]="role">
+            <ion-select-option *ngFor="let rol of roles" [value]="rol">{{rol}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
         <ion-item>
           <ion-input
             label="Introduzca su telefono"
@@ -190,8 +249,16 @@
           ></ion-input>
         </ion-item>
         <ion-item>
+          <ion-input
+            labelPlacement="stacked"
+            type="file"
+            placeholder="Imagen"
+            [(ngModel)]="file"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
           <div>
-            <p>Hora de entrada: </p>
+            <p>Hora de entrada:{{role}} </p>
             <ion-datetime-button datetime="hourOut"></ion-datetime-button>
           </div>
           <ion-modal class="modal-time" [keepContentsMounted]="true">

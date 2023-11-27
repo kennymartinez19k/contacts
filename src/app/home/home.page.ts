@@ -25,7 +25,12 @@ export class HomePage implements OnInit {
   name = null
   lastName = null
   id = null
-  rol = null
+  position = null
+  role = null
+  file = null
+  roles = [
+    "Admin", "Usuario"
+  ]
   hourIn = new Date().getTime()
   hourOut = new Date()
   phone = null
@@ -56,7 +61,8 @@ export class HomePage implements OnInit {
       name: this.name,
       lastName: this.lastName,
       id: this.id,
-      rol: this.rol,
+      position: this.position,
+      role: this.role,
       phone: this.phone,
       hourIn: this.hourIn,
       hourOut: this.hourOut
@@ -80,11 +86,15 @@ export class HomePage implements OnInit {
   }
 
   setOpen(condition: Boolean = false, idx: any){
+  console.log('====================================');
+  console.log(this.users);
+  console.log('====================================');
     this.isModalOpen = condition;
     this.name =this.users[idx].name
     this.lastName =this.users[idx].lastName
     this.id =this.users[idx].id
-    this.rol =this.users[idx].rol
+    this.position =this.users[idx].position
+    this.role =this.users[idx].role
     this.phone =this.users[idx].phone
   }
 
