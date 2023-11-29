@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.services'
 
 @Component({
   selector: 'app-home',
@@ -11,29 +12,21 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
   @ViewChild(IonModal) modal: any 
 
-    constructor(private router: Router ) { 
-      // constructor() {
-    let usersString = localStorage.getItem("users")
-    console.log(usersString)
-    if(usersString){
-      this.users = JSON.parse(usersString)
-    }else{
-      this.users = []
-    }
+  constructor(private userServices: UserService, private router: Router ) { 
   }
   message: any = null
-  name = null
-  lastName = null
-  id = null
-  position = null
-  role = null
-  file = null
-  roles = [
+  name: any = null
+  lastName: any = null
+  id: any = null
+  position: any = null
+  role: any = null
+  file: any = null
+  roles: any = [
     "Admin", "Usuario"
   ]
-  hourIn = new Date().getTime()
-  hourOut = new Date()
-  phone = null
+  hourIn: any = null
+  hourOut: any = null
+  phone: any = null
   isModalOpen: any = false
   isModalOpenNew = false
   
@@ -44,12 +37,9 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
-    let usersString = localStorage.getItem("users")
-    if(usersString){
-      this.users.push = JSON.parse(usersString)
-    }else{
-      this.users = []
-    }
+    this.userServices.getUsers().subscribe(users => {
+      this.users = users;
+    });
   }
   users: any = []
 
@@ -78,6 +68,27 @@ export class HomePage implements OnInit {
     localStorage.setItem("users", JSON.stringify(this.users))
   }
 
+  createUser(){
+    this.isModalOpen = false
+    this.isModalOpenNew = false
+
+    let user = {
+      name: this.name,
+      lastName: this.lastName,
+      position: this.position,
+      role: this.role,
+      phone: this.phone,
+      hourIn: this.hourIn,
+      hourOut: this.hourOut,
+      file: this.file,
+      userId: `${new Date().getTime()}-${this.phone}`
+    }
+
+    this.userServices.addUser(user).then( (userId) => {
+      console.log(userId)
+    })
+  }
+
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
@@ -99,8 +110,11 @@ export class HomePage implements OnInit {
   }
 
   deleteUser (index: any) {
-    this.users.splice(index,1)
-    localStorage.setItem("users", JSON.stringify(this.users))
+    let user = this.users[index]
+    // this.users.splice(index,1)
+    this.userServices.deleteUser(user.userId).then(users => {
+      this.users = users;
+    });
   }
 
   loguaout () {
