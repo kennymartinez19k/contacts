@@ -1,0 +1,68 @@
+<ion-loading
+  trigger="open-side"
+  message="Loading..."
+  [duration]="3000"
+  spinner="circles"
+></ion-loading>
+
+<ion-menu contentId="main-content">
+  <ion-header class="flex header">
+    <ion-toolbar class="tool" color="gray">
+      <div class="user">
+        <img src="../../assets/usuario (1).png" alt="" />
+      </div>
+      <div class="face">
+        <ion-title>{{ userServices.UserName }}</ion-title>
+        <ion-title>{{ userServices.email }}</ion-title>
+      </div>
+    </ion-toolbar>
+    <ion-menu-toggle>
+      <ion-icon class="icon-x" name="close-circle-outline"></ion-icon>
+    </ion-menu-toggle>
+  </ion-header>
+  <ion-content class="ion-padding">
+      <ul>
+        <li class="opt">
+          <ion-menu-toggle>
+            <button
+              id="open-side"
+              expand="full"
+              (click)="routeComponent('home')"
+            >
+              Home
+            </button>
+          </ion-menu-toggle>
+        </li>
+        <li class="opt">
+          <ion-menu-toggle>
+            <a id="open-side" expand="full" (click)="routeComponent('edit')"
+              >Editar (Mi Perfil)</a
+            >
+          </ion-menu-toggle>
+        </li>
+        <li class="opt">
+          <ion-menu-toggle>
+            <a id="open-side" expand="full" (click)="routeComponent('version')"
+              >Versión</a
+            >
+          </ion-menu-toggle>
+        </li>
+        <li class="opt">
+          <ion-menu-toggle>
+            <a id="open-side" expand="full" (click)="routeComponent('login')"
+              >Cerrar Sesion <ion-icon class="icon" name="arrow-back-circle-outline"></ion-icon></a>
+          </ion-menu-toggle>
+        </li>
+      </ul>
+      
+  </ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar class="cursor">
+      <a id="open-side" expand="full" (click)="routeComponent('home')"
+        ><ion-title (click)="routeComponent('home')">Home</ion-title></a
+      >
+    </ion-toolbar>
+  </ion-header>
+</div>

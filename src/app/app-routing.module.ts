@@ -3,6 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomePage } from './home/home.page';
 import { RegisterComponent } from './register/register.component';
+import { VersionComponent } from './version/version.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 HomePage
 LoginComponent
 const routes: Routes = [
@@ -22,6 +24,14 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'version',
+    component: VersionComponent
+  },
+  {
+    path: 'edit',
+    component: EditProfileComponent
   }
 ];
 

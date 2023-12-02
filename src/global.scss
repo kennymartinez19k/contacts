@@ -28,3 +28,9 @@
 p{
     font-size: 12px;
 }
+
+body.scanner-active {
+    --background: transparent;
+    --ion-background-color: transparent;
+    // height: 83% !important;
+  }

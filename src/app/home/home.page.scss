@@ -79,9 +79,7 @@ ion-title{
   font-size: 12px;
   color: #ccc;
 }
-.flex {
-  display: flex;
-}
+
 .logueaut {
   text-align: center;
 
@@ -95,4 +93,35 @@ ion-card-header {
 #shadow-root .button-native {
   padding-inline-start: none;
   padding-inline-end: none;
+}
+.icon  {
+  font-size: 38px;
+}
+.header {
+  display: flex;
+  align-items: center;
+}
+.button-opt {
+  background: #ffffff !important;
+  border-top: 1px solid #e2e2e2;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0px;
+}
+.img-div {
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  font-size: 35px !important;
+  align-items: center;
+  width: 20%;
+}
+.cont {
+  max-height: 91vh;
+
 }

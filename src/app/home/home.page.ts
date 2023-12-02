@@ -27,16 +27,38 @@ export class HomePage implements OnInit {
   hourIn: any = null
   hourOut: any = null
   phone: any = null
+  email: any = null
+  password: any = null
   isModalOpen: any = false
   isModalOpenNew = false
+  usersProfile: any;
   
+  imageElement: any = null;
+  additionalImgName: any = null;
+
+
+
+
   cancel() {
-    this.isModalOpen = false
-    this.isModalOpenNew = false
+    this.isModalOpen = false;
+    this.isModalOpenNew = false;
+
+    this.name = null,
+    this.lastName = null,
+    this.id = null,
+    this.position = null,
+    this.role = null,
+    this.phone = null,
+    this.hourIn = null,
+    this.hourOut = null,
+    this.email = null,
+    this.password = null
 
   }
 
   ngOnInit(): void {
+    this.usersProfile = JSON.parse(localStorage.getItem("user") ||"{}")
+
     this.userServices.getUsers().subscribe(users => {
       this.users = users;
     });
@@ -55,7 +77,9 @@ export class HomePage implements OnInit {
       role: this.role,
       phone: this.phone,
       hourIn: this.hourIn,
-      hourOut: this.hourOut
+      hourOut: this.hourOut,
+      email: this.email,
+      password: this.password
     }
 
     let usersString = localStorage.getItem("users")
@@ -80,6 +104,8 @@ export class HomePage implements OnInit {
       phone: this.phone,
       hourIn: this.hourIn,
       hourOut: this.hourOut,
+      email: this.email,
+      password: this.password,
       file: this.file,
       userId: `${new Date().getTime()}-${this.phone}`
     }
@@ -97,9 +123,6 @@ export class HomePage implements OnInit {
   }
 
   setOpen(condition: Boolean = false, idx: any){
-  console.log('====================================');
-  console.log(this.users);
-  console.log('====================================');
     this.isModalOpen = condition;
     this.name =this.users[idx].name
     this.lastName =this.users[idx].lastName
@@ -107,6 +130,8 @@ export class HomePage implements OnInit {
     this.position =this.users[idx].position
     this.role =this.users[idx].role
     this.phone =this.users[idx].phone
+    this.email = this.users[idx]?.email
+    this.password =this.users[idx]?.password
   }
 
   deleteUser (index: any) {
@@ -117,9 +142,20 @@ export class HomePage implements OnInit {
     });
   }
 
-  loguaout () {
-    this.router.navigate(['login'])
+  async pickImage(event: any) {
+    let blob = event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(blob);
+    let img;
 
+    reader.onloadend = async function () {
+      img = reader.result;
+    };
+    let delay = (ms: number | undefined) =>
+      new Promise((res) => setTimeout(res, ms));
+    await delay(1000);
+    this.additionalImgName = blob.name;
+    this.imageElement = img;
   }
-
+ 
 }
