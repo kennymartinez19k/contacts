@@ -37,9 +37,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userServices.getUsers().subscribe(users => {
-      this.users = users;
-    });
+    this.getUsers()
   }
   users: any = []
 
@@ -86,9 +84,16 @@ export class HomePage implements OnInit {
 
     this.userServices.addUser(user).then( (userId) => {
       console.log(userId)
+      this.getUsers()
     })
   }
 
+
+  getUsers(){
+    this.userServices.getUsers().subscribe(users => {
+      this.users = users;
+    });
+  }
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
@@ -111,10 +116,11 @@ export class HomePage implements OnInit {
 
   deleteUser (index: any) {
     let user = this.users[index]
-    // this.users.splice(index,1)
+    this.users.splice(index,1)
     this.userServices.deleteUser(user.userId).then(users => {
-      this.users = users;
     });
+
+    console.log(this.users)
   }
 
   loguaout () {
