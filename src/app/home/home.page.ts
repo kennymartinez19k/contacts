@@ -3,6 +3,7 @@ import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.services'
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import { UserService } from '../services/user.services'
 export class HomePage implements OnInit {
   @ViewChild(IonModal) modal: any 
 
-  constructor(private userServices: UserService, private router: Router ) { 
+  constructor(private userServices: UserService, public authService: AuthService, private router: Router ) { 
   }
   message: any = null
   name: any = null
@@ -88,7 +89,7 @@ export class HomePage implements OnInit {
     localStorage.setItem("users", JSON.stringify(this.users))
   }
 
-  createUser(){
+  async createUser(){
     this.isModalOpen = false
     this.isModalOpenNew = false
 
@@ -105,11 +106,26 @@ export class HomePage implements OnInit {
       file: this.file,
       userId: `${new Date().getTime()}-${this.phone}`
     }
+    let result = await this.signUp()
+    if(result){
+      this.userServices.addUser(user).then( (userId) => {
+        this.getUsers()
+      })
+    }
+  }
 
-    this.userServices.addUser(user).then( (userId) => {
-      console.log(userId)
-      this.getUsers()
-    })
+  async signUp(){
+    let form = {
+      email: this.email,
+      password: this.password
+    }
+    try {
+      let result = await this.authService.register(form)
+      console.log(result)
+      return true
+    } catch (error) {
+      return false      
+    }
   }
 
 
