@@ -1,0 +1,51 @@
+.flex {
+    display: flex;
+   
+}
+.header {
+    color: #fff;
+    background: darkgrey;
+}
+.user {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+}
+.face {
+    padding: 15px 0px;
+    text-align: center;
+}
+.tool {
+    min-height: 27vh !important;
+}
+.icon-x {
+    color: red !important;
+    font-size: 33px !important;
+}
+.opt {
+    cursor: pointer !important;
+    border-bottom: 1px solid #d7d1d1;
+}
+
+li {
+    padding: 20px !important;
+    color: rgb(0, 0, 0) !important;
+    text-align: initial;
+    margin: 0px !important;
+}
+ul {
+    padding: 0;
+    list-style: none;
+}
+a {
+    color: #737475;
+    display: flex;
+    align-items: center;
+}
+.cursor {
+    cursor: pointer;
+}
+.icon {
+    font-size:  25px;
+}
