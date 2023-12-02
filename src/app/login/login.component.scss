@@ -7,3 +7,23 @@
 .text-decoration{
     text-decoration: none;
 }
+
+
+  .button-opt {
+    background: #ffffff !important;
+    border-top: 1px solid #e2e2e2;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0px;
+  }
+
+@media only screen and (min-width:426px) {
+
+    .container{
+        display: flex;
+        justify-content: center;
+    }
+}

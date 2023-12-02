@@ -15,14 +15,20 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { RegisterComponent } from './register/register.component';
-
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { VersionComponent } from './version/version.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePage, 
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    SidebarComponent,
+    EditProfileComponent,
+    VersionComponent
+
   ],
   imports: [
     BrowserModule, 
@@ -34,6 +40,9 @@ import { RegisterComponent } from './register/register.component';
     AppRoutingModule,
     IonicModule.forRoot(),
     ReactiveFormsModule,
+
+
+
     provideFirebaseApp(() => initializeApp(environment)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

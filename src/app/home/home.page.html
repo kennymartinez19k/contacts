@@ -1,14 +1,19 @@
-<ion-header [translucent]="true" class="flex">
+<ion-header [translucent]="true" class="header">
   <ion-toolbar>
     <ion-title>
       Contactos
     </ion-title>
   </ion-toolbar>
-  <ion-toolbar (click)="loguaout()" class="logueaut">
-    <ion-title>
-      Cerrar Sesion
-    </ion-title>
-  </ion-toolbar>
+  <!-- <ion-toolbar width="20%"  class="logueaut"> -->
+    <!-- <ion-title>
+      Cerrar Sesion (click)="loguaout()"
+    </ion-title> -->
+<!-- <ion-content > -->
+  <ion-menu-toggle>
+    <ion-icon class="icon"  name="menu-outline"></ion-icon>
+  </ion-menu-toggle>
+<!-- </ion-content> -->
+  <!-- </ion-toolbar> -->
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -31,7 +36,7 @@
             <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
 
             </div>
-            <div>
+            <div *ngIf="usersProfile?.role == 'admin'">
               <ion-button fill="clear" (click)="setOpen(true,idx)"><ion-icon slot="icon-only" name="create-outline"></ion-icon>
                  <!-- <ion-icon slot="icon-only"  name="pencil"></ion-icon> -->
                 </ion-button>
@@ -100,16 +105,17 @@
 
   <ion-modal [isOpen]="isModalOpen" (willDismiss)="onWillDismiss($event)">
     <ng-template>
-      <ion-header>
+      <ion-header class="header">
         <ion-toolbar>
-          <ion-buttons slot="start">
+          <!-- <ion-buttons slot="start">
             <ion-button (click)="cancel()">Cancelar</ion-button>
-          </ion-buttons>
+          </ion-buttons> -->
           <ion-title>Editar</ion-title>
-          <ion-buttons slot="end">
+          <!-- <ion-buttons slot="end">
             <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
-          </ion-buttons>
+          </ion-buttons> -->
         </ion-toolbar>
+        <ion-icon (click)="cancel()" class="icon" name="arrow-back-circle-outline"></ion-icon>
       </ion-header>
       <ion-content class="ion-padding">
         <ion-item>
@@ -128,6 +134,24 @@
             type="text"
             placeholder="Apellido"
             [(ngModel)]="lastName"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca el Correo"
+            labelPlacement="stacked"
+            type="email"
+            placeholder="Correo"
+            [(ngModel)]="email"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca el Password"
+            labelPlacement="stacked"
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="password"
           ></ion-input>
         </ion-item>
         <ion-item>
@@ -159,47 +183,74 @@
         </ion-item>
         <ion-item>
           <div>
-            <p>Hora de entrada: </p>
-            <ion-datetime-button datetime="datetime1"></ion-datetime-button>
+            <!-- <p>Hora de entrada: </p>
+            <ion-datetime-button datetime="datetime1"></ion-datetime-button> -->
+            <ion-input
+            label="Hora de entrada:"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Hora"
+            [(ngModel)]="hourIn"
+          ></ion-input>
           </div>
-          <ion-modal class="modal-time" [keepContentsMounted]="true">
+          <!-- <ion-modal class="modal-time" [keepContentsMounted]="true">
             <ng-template>
               <ion-datetime id="datetime1" value="2022-04-21T22:20:00"  presentation="time"></ion-datetime>
             </ng-template>
-          </ion-modal>
+          </ion-modal> -->
         </ion-item>
         <ion-item>
           <div>
-            <p>Hora de salida: </p>
-            <ion-datetime-button datetime="datetime1"></ion-datetime-button>
+            <!-- <p>Hora de salida: </p>
+            <ion-datetime-button datetime="datetime1"></ion-datetime-button> -->
+            <ion-input
+            label="Hora de salida:"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Hora"
+            [(ngModel)]="hourOut"
+          ></ion-input>
           </div>
-          <ion-modal class="modal-time" [keepContentsMounted]="true">
+          <!-- <ion-modal class="modal-time" [keepContentsMounted]="true">
             <ng-template>
               <ion-datetime id="datetime1" value="2022-04-21T22:20:00"  presentation="time"></ion-datetime>
             </ng-template>
-          </ion-modal>
+          </ion-modal> -->
         </ion-item>
       </ion-content>
+      <div class="button-opt">
+        <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancel()">Cancelar</ion-button>
+            </ion-buttons>
+            <ion-buttons slot="end">
+              <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+
+    </div>
     </ng-template>
   </ion-modal>
 
   <ion-modal [isOpen]="isModalOpenNew" (willDismiss)="onWillDismiss($event)">
     <ng-template>
-      <ion-header>
+      <ion-header class="header">
         <ion-toolbar>
-          <ion-buttons slot="start">
+          <!-- <ion-buttons slot="start">
             <ion-button (click)="cancel()">Cancelar</ion-button>
-          </ion-buttons>
+          </ion-buttons> -->
           <ion-title>Crear Contacto</ion-title>
-          <ion-buttons slot="end">
+          <!-- <ion-buttons slot="end">
             <ion-button (click)="createUser()" [strong]="true">Confirmar</ion-button>
-          </ion-buttons>
+          </ion-buttons> -->
         </ion-toolbar>
+        <ion-icon (click)="cancel()" class="icon" name="arrow-back-circle-outline"></ion-icon>
+
       </ion-header>
-      <ion-content class="ion-padding">
+      <ion-content class="ion-padding cont">
         <ion-item>
           <ion-input
-            label="Introduzca su nombre"
+            label="Introduzca el nombre"
             labelPlacement="stacked"
             type="text"
             placeholder="Nombre"
@@ -208,7 +259,7 @@
         </ion-item>
         <ion-item>
           <ion-input
-            label="Introduzca su Apellido"
+            label="Introduzca el Apellido"
             labelPlacement="stacked"
             type="text"
             placeholder="Apellido"
@@ -217,7 +268,25 @@
         </ion-item>
         <ion-item>
           <ion-input
-            label="Introduzca su Identificación"
+            label="Introduzca el Correo"
+            labelPlacement="stacked"
+            type="email"
+            placeholder="Correo"
+            [(ngModel)]="email"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca el Password"
+            labelPlacement="stacked"
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="password"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Introduzca la Identificación"
             labelPlacement="stacked"
             type="text"
             placeholder="Identificación"
@@ -226,7 +295,7 @@
         </ion-item>
         <ion-item>
           <ion-input
-            label="Introduzca su Puesto"
+            label="Introduzca el Puesto"
             labelPlacement="stacked"
             type="text"
             placeholder="Puesto"
@@ -241,44 +310,78 @@
 
         <ion-item>
           <ion-input
-            label="Introduzca su telefono"
+            label="Introduzca el telefono"
             labelPlacement="stacked"
             type="number"
             placeholder="Telefono"
             [(ngModel)]="phone"
           ></ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item style="position: relative">
+          <!-- <label class="img-div" style="position: relative"> -->
+            <!-- <font-awesome-icon icon="images" /> -->
+            <!-- <input type="file" (change)="pickImage($event)" id="file-img" style="position: absolute; opacity: 0" />
+            </label> -->
           <ion-input
+            label="Seleccione una Imagen"
             labelPlacement="stacked"
             type="file"
             placeholder="Imagen"
             [(ngModel)]="file"
+            (change)="pickImage($event)" id="file-img" style="position: absolute; opacity: 0"
           ></ion-input>
-        </ion-item>
+            <ion-icon name="images-outline" ></ion-icon>
+            <ion-label *ngIf="!additionalImgName">&nbsp;Seleccione una Imagen</ion-label>
+            <ion-label *ngIf="additionalImgName">&nbsp;{{additionalImgName}}</ion-label>
+          </ion-item>
         <ion-item>
           <div>
-            <p>Hora de entrada:{{role}} </p>
-            <ion-datetime-button datetime="hourOut"></ion-datetime-button>
+            <!-- <p>Hora de entrada:{{role}} </p>
+            <ion-datetime-button datetime="hourOut"></ion-datetime-button> -->
+            <ion-input
+            label="Hora de entrada:"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Hora"
+            [(ngModel)]="hourIn"
+          ></ion-input>
           </div>
-          <ion-modal class="modal-time" [keepContentsMounted]="true">
+          <!-- <ion-modal class="modal-time" [keepContentsMounted]="true">
             <ng-template>
               <ion-datetime id="datetime1" value="2022-04-21T22:20:00"  presentation="time"></ion-datetime>
             </ng-template>
-          </ion-modal>
+          </ion-modal> -->
         </ion-item>
         <ion-item>
           <div>
-            <p>Hora de salida: </p>
-            <ion-datetime-button datetime="datetime1"></ion-datetime-button>
+            <!-- <p>Hora de salida: </p>
+            <ion-datetime-button datetime="datetime1"></ion-datetime-button> -->
+            <ion-input
+            label="Hora de salida:"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Hora"
+            [(ngModel)]="hourOut"
+          ></ion-input>
           </div>
-          <ion-modal class="modal-time" [keepContentsMounted]="true">
+          <!-- <ion-modal class="modal-time" [keepContentsMounted]="true">
             <ng-template>
               <ion-datetime id="datetime1" value="hourOut"  presentation="time"></ion-datetime>
             </ng-template>
-          </ion-modal>
+          </ion-modal> -->
         </ion-item>
       </ion-content>
+      <div class="button-opt">
+        <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancel()">Cancelar</ion-button>
+            </ion-buttons>
+            <ion-buttons slot="end">
+              <ion-button (click)="createUser()" [strong]="true">Confirmar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+
+    </div>
     </ng-template>
   </ion-modal>
 
