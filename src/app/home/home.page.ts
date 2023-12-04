@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.services';
 import { AuthService } from '../services/auth.service';
 import { AlertController } from '@ionic/angular';
+import { Firestore, collection, addDoc, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, orderBy, startAt, endAt } from '@angular/fire/firestore';
 import { PopoverController } from '@ionic/angular';
 @Component({
   selector: 'app-home',
@@ -19,7 +20,8 @@ export class HomePage implements OnInit {
     public authService: AuthService,
     private router: Router,
     private alertController: AlertController,
-    public popoverController: PopoverController
+    public popoverController: PopoverController,
+    private firestore: Firestore
   ) {}
   message: any = null;
   name: any = null;
@@ -39,6 +41,7 @@ export class HomePage implements OnInit {
   isModalOpenNew = false;
   usersProfile: any;
   active: any = false
+  userId: any = null
   usersToDisplay: any = [];
   imageElement: any = null;
   additionalImgName: any = null;
@@ -84,14 +87,6 @@ export class HomePage implements OnInit {
 
     };
 
-    let usersString = localStorage.getItem('users');
-    if (usersString) {
-      this.users = JSON.parse(usersString);
-      this.users.push(user);
-    } else {
-      this.users = [user];
-    }
-    localStorage.setItem('users', JSON.stringify(this.users));
   }
 
   async createUser() {
@@ -148,8 +143,9 @@ export class HomePage implements OnInit {
   async getUsers() {
     this.userServices.getUsers().subscribe((users) => {
       this.users = users;
+      console.log(users)
       this.usersToDisplay = users;
-      this.filterByUserLogin()
+      // this.filterByUserLogin()
     });
   }
   async filterByUserLogin () {
@@ -182,14 +178,38 @@ export class HomePage implements OnInit {
     this.email = this.users[idx]?.email;
     this.password = this.users[idx]?.password;
     this.active = this.users[idx]?.active;
+    this.userId = this.users[idx]?.userId;
+    this.hourIn = this.users[idx]?.hourIn;
+    this.hourOut = this.users[idx]?.hourOut;
   }
 
   deleteUser(index: any) {
     let user = this.users[index];
     this.users.splice(index, 1);
     this.userServices.deleteUser(user.userId).then((users) => {});
-
     console.log(this.users);
+  }
+
+  editUser(){
+    let user = {
+      name: this.name,
+      lastName: this.lastName,
+      position: this.position,
+      role: this.role,
+      phone: this.phone,
+      hourIn: this.hourIn,
+      hourOut: this.hourOut,
+      email: this.email,
+      password: this.password,
+      active: this.active,
+      userId: this.userId,
+    };
+
+    console.log(user)
+    this.userServices.deleteUser(this.userId).then((users) => {
+      this.createUser()
+    }).catch(err => console.log(err.message))
+
   }
 
   async pickImage(event: any) {

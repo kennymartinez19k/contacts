@@ -52,16 +52,19 @@ export class UserService {
     }
   }
 
-  async updateUser(userId: string, user: User): Promise <void> {
+  async updateUser(userId: string, user: any) {
+    console.log(userId)
+    await this.deleteUser(userId)
     const userRef = doc(this.firestore, 'contactos', userId)
     this._refresh$.next()
     return setDoc(userRef, user, {merge: true})
   }
 
-  async deleteUser(userId: string | undefined): Promise<void> {
+  async deleteUser(userId: string | undefined) {
+    console.log(userId)
     if(userId) {
       const userRef = doc(this.firestore, 'contactos', userId)
-      await deleteDoc(userRef)
+      return await deleteDoc(userRef)
     } else {
       console.log('ERROR al eliminar SERVICIO')
     }
@@ -96,13 +99,15 @@ export class UserService {
 }
 
 interface User {
-  name: string
-  lastName: string
-  position: string
-  role: string
-  file: string
-  hourIn: string
-  hourOut: string
-  phone: Number
-  userId: string
+  name: any
+  lastName: any
+  position: any
+  role: any
+  hourIn: any
+  hourOut: any
+  phone: any
+  userId: any
+  email: any
+  password: any
+  active: any
 }
