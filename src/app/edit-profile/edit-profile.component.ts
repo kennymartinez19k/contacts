@@ -108,14 +108,10 @@ export class EditProfileComponent implements OnInit {
       active: this.active,
       userId: this.userId,
     };
-console.log('====================================');
-console.log(user);
-console.log('====================================');
     try{
       let res = await this.userServices.updateUser(user.userId, user)
+      this.router.navigate(['home'])
       this.cancel()
-    this.router.navigate(['home'])
-      // this.getUsers()
       console.log(res)
     }catch(err: any){
       console.log(err.message)

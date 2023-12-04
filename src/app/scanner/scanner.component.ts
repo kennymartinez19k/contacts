@@ -106,9 +106,6 @@ export class ScannerComponent  implements OnInit, OnDestroy {
   async checkPermission () {
     try {
       const status  = await BarcodeScanner.checkPermission({ force: true });
-      console.log('====================================');
-      console.log(status);
-      console.log('====================================');
       if (status.granted) {
         return true
       }

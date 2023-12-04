@@ -43,8 +43,11 @@ export class SidebarComponent implements OnInit, OnChanges {
   }
 
   
-  routeComponent (rut: any) {
+  routeComponent (rut: any, remove: any = null) {
     this.router.navigate([rut])
+    if (remove) {
+      localStorage.removeItem('user')
+    }
 
   }
 
