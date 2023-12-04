@@ -243,7 +243,7 @@ console.log('====================================');
     const alert = await this.alertController.create({
       header: alertMsg.header,
       message: alertMsg.text,
-      buttons: ['Ok', 'Cancel'],
+      buttons: ['Ok'],
     });
     await alert.present();
   }
