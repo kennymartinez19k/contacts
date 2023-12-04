@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,10 @@ export class RegisterComponent  implements OnInit {
   ];
   formRegister: FormGroup;
     
-    constructor(public authService: AuthService, private router: Router ) { 
+    constructor(public authService: AuthService, 
+      private router: Router, 
+    private alertController: AlertController,
+    ) { 
     this.formRegister = new FormGroup({
       userRegistered: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required]),
@@ -39,10 +43,24 @@ export class RegisterComponent  implements OnInit {
     this.authService.register(form).then( () => {
       console.log("Se registro")
     })
+    .catch((e) => {
+      console.log('====================================');
+      console.log(e);
+      console.log('====================================');
+      this.alertStatusError({})
+    })
     // this.formRegister.value = ''
   }
   navigate(path: string){
     this.router.navigate([path])
+  }
+  async alertStatusError(alertMsg: any) {
+    const alert = await this.alertController.create({
+      header: alertMsg.header,
+      message: alertMsg.text,
+      buttons: ['Ok'],
+    });
+    await alert.present();
   }
 
 }
