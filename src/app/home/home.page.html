@@ -65,7 +65,7 @@
               <ion-card-title>{{user.name}} {{user.lastName}}</ion-card-title>
             </div>
             </div>
-            <div *ngIf="usersProfile?.role != 'admin'">
+            <div *ngIf="usersProfile?.role == 'Admin'">
               <ion-button fill="clear" (click)="setOpen(true,idx)"><ion-icon slot="icon-only" name="create-outline"></ion-icon>
                 </ion-button>
               <ion-button fill="clear" (click)="allertDeleteUser(idx)" color="danger"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
@@ -322,7 +322,7 @@
     </ng-template>
   </ion-modal>
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab *ngIf="usersProfile?.role == 'Admin'" slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="isModalOpenNew = true">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

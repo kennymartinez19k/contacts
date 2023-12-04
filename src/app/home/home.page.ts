@@ -1,18 +1,20 @@
-import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges, OnDestroy } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { Router } from '@angular/router';
 import { UserService } from '../services/user.services';
 import { AuthService } from '../services/auth.service';
 import { AlertController } from '@ionic/angular';
 import { Firestore, collection, addDoc, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, orderBy, startAt, endAt } from '@angular/fire/firestore';
 import { PopoverController } from '@ionic/angular';
+import { filter } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, OnChanges {
+export class HomePage implements OnInit, OnChanges, OnDestroy {
   @ViewChild(IonModal) modal: any;
 
   constructor(
@@ -46,6 +48,7 @@ export class HomePage implements OnInit, OnChanges {
   imageElement: any = null;
   additionalImgName: any = null;
   dismiss: boolean = false;
+  subscription: any = null
 
   cancel() {
     this.isModalOpen = false;
@@ -63,8 +66,17 @@ export class HomePage implements OnInit, OnChanges {
       this.password = null;
   }
 
-  ngOnInit(): void {
-    this.getUsers();
+  async ngOnInit() {
+    this.subscription = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd)
+      ).subscribe(async () => {
+        console.log("entreeeeeee")
+        await this.getUsers();
+      })
+  }
+
+  ngOnDestroy(): void {
+    this.subscription ? this.subscription.unsubscribe() : null;
   }
   ngOnChanges() {
     this.getUsers();
@@ -148,7 +160,15 @@ export class HomePage implements OnInit, OnChanges {
   async getUsers() {
     this.userServices.getUsers().subscribe((users) => {
       this.users = users;
+      console.log(users)
       this.usersToDisplay = users;
+      let user = JSON.parse(localStorage.getItem("user") || "{}")
+      console.log(this.users)
+      let currentUser = this.users.find((x: any) => x.email == user.email)
+      console.log(currentUser)
+      this.usersProfile = {...user, ...currentUser}
+      console.log(this.usersProfile)
+      localStorage.setItem('user', JSON.stringify(this.usersProfile))
     });
   }
   async filterByUserLogin () {
