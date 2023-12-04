@@ -1,0 +1,55 @@
+<div
+  style="
+    position: absolute;
+    left: 0px;
+    top: -2px;
+    height: 1px;
+    overflow: hidden;
+    visibility: hidden;
+    width: 1px;
+  "
+>
+  <span
+    style="
+      position: absolute;
+      font-size: 300px;
+      width: auto;
+      height: 53vh;
+      margin: 0px;
+      padding: 0px;
+      font-family: Roboto, Arial, sans-serif;
+    "
+    >BESbswy</span
+  >
+</div>
+
+<div class="button-opt">
+  <ion-toolbar>
+    <ion-button
+      *ngIf="!isStopCanner"
+      id="open-loading"
+      expand="full"
+      (click)="navigate('login')"
+      class="ion-margin"
+      color="success"
+      >IR AL LOGUIN</ion-button>
+      
+    <ion-button
+    *ngIf="isStopCanner"
+    id="open-loading"
+    expand="full"
+    color="warning"
+    (click)="stopScan()"
+    class="ion-margin stop"
+    >Detener</ion-button>
+
+    <ion-button
+      id="open-loading"
+      expand="full"
+      (click)="startScan()"
+      class="ion-margin"
+      >scanear ID</ion-button
+    >
+  </ion-toolbar>
+</div>
+<!-- <ion-loading trigger="open-loading" message="Loading..." [duration]="3000" spinner="circles"></ion-loading> -->

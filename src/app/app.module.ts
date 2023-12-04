@@ -18,6 +18,7 @@ import { RegisterComponent } from './register/register.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { VersionComponent } from './version/version.component';
+import { ScannerComponent } from './scanner/scanner.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { VersionComponent } from './version/version.component';
     RegisterComponent,
     SidebarComponent,
     EditProfileComponent,
-    VersionComponent
+    VersionComponent,
+    ScannerComponent
 
   ],
   imports: [
