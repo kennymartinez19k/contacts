@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { PopoverController } from '@ionic/angular';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnChanges {
   @ViewChild(IonModal) modal: any;
 
   constructor(
@@ -65,6 +65,10 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+  }
+  ngOnChanges() {
+    this.getUsers();
+        
   }
   users: any = [];
 
@@ -150,15 +154,17 @@ export class HomePage implements OnInit {
   }
   async filterByUserLogin () {
     let user = await JSON.parse(localStorage.getItem("user") || "{}")
-    const infoUser =  this.users.forEach((us: any) => {
+     this.users.forEach((us: any) => {
       if (us.email == user.email) {
-        user.displayName = infoUser.name
-        user.rol = infoUser.rol
+        user.displayName = us.name
+        user.rol = us.rol
         localStorage.setItem("user", JSON.stringify(user))
       }
     });
     // filter((us: any) => us.email == user.email)
-
+console.log('====================================');
+console.log(this.users);
+console.log('====================================');
   }
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
@@ -257,11 +263,11 @@ export class HomePage implements OnInit {
     const alert = await this.alertController.create({
       header: alertMsg.header,
       message: alertMsg.text,
-      buttons: ['Ok'],
+      buttons: ['Ok', 'Cancel'],
     });
     await alert.present();
   }
-
+  
   closPopUp() {
     const popover = document.getElementById('popover');
 
@@ -269,4 +275,36 @@ export class HomePage implements OnInit {
       this.popoverController.dismiss();
     }
   }
+
+  async alertDelete(alertMsg: any) {
+    const alert = await this.alertController.create({
+      header: alertMsg.header,
+      message: alertMsg.text,
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            console.log('Botón "Cancel" presionado');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: () => {
+            this.deleteUser(alertMsg.idx)
+          }
+        }
+      ],
+    });
+    await alert.present();
+  }
+
+  allertDeleteUser(index: any) {
+    this.alertDelete({
+      header: 'Eliminar Usuario',
+      text: 'Esta seguro que desea eliminar este usuario. Una vez eliminado no se podra recuperar',
+      idx: index
+    })
+  }
+
+ 
 }

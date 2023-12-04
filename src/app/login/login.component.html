@@ -22,7 +22,7 @@
       </form>
       <ion-button id="open-loading" expand="full" [disabled]="isDisable" (click)="login()" class="ion-margin">Iniciar Sesion</ion-button>
       <p class="ion-text-center">Registrar nuevo Integrante <a (click)="navigate('register')" class="text-decoration">Iniciar Registro</a></p>
-      <ion-button id="open-loading" expand="full" [disabled]="isDisable" (click)="isModalOpenScan = true" class="ion-margin">scanear ID</ion-button>
+      <ion-button id="open-loading" expand="full" [disabled]="isDisable" (click)="navigate('scanner')" class="ion-margin">scanear ID</ion-button>
 
     </div>
 
@@ -32,44 +32,3 @@
 <!-- <ion-button id="open-loading">Show Loading</ion-button> -->
 <ion-loading trigger="open-loading" message="Loading..." [duration]="3000" spinner="circles"></ion-loading>
 
-
-<ion-modal [isOpen]="isModalOpenScan" (willDismiss)="onWillDismiss($event)">
-  <ng-template>
-    <ion-header class="header">
-      <ion-toolbar>
-        <!-- <ion-buttons slot="start">
-          <ion-button (click)="cancel()">Cancelar</ion-button>
-        </ion-buttons> -->
-        <ion-title>Crear Contacto</ion-title>
-        <!-- <ion-buttons slot="end">
-          <ion-button (click)="createUser()" [strong]="true">Confirmar</ion-button>
-        </ion-buttons> -->
-      </ion-toolbar>
-      <ion-icon (click)="stopScan()" class="icon" name="arrow-back-circle-outline"></ion-icon>
-
-    </ion-header>
-    
-    <!-- <ion-content class="ion-padding"> -->
-      <div style="position: absolute; left: 0px; top: -2px; height: 1px; overflow: hidden; visibility: hidden; width: 1px;">
-        <span
-          style="position: absolute; font-size: 300px; width: auto; height: 53vh; margin: 0px; padding: 0px; font-family: Roboto, Arial, sans-serif;"
-          >BESbswy</span
-        >
-      </div>
-     
-    <!-- </ion-content> -->
-    <div class="button-opt">
-      <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-button (click)="stopScan()">Detener</ion-button>
-          </ion-buttons>
-      <ion-button id="open-loading" expand="full" [disabled]="isDisable" (click)="startScan()" class="ion-margin">scanear ID</ion-button>
-
-          <!-- <ion-buttons slot="end">
-            <ion-button (click)="createUser()" [strong]="true">Confirmar</ion-button>
-          </ion-buttons>-->
-        </ion-toolbar> 
-
-  </div>
-  </ng-template>
-</ion-modal>

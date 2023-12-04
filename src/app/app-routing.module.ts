@@ -5,6 +5,7 @@ import { HomePage } from './home/home.page';
 import { RegisterComponent } from './register/register.component';
 import { VersionComponent } from './version/version.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ScannerComponent } from './scanner/scanner.component';
 HomePage
 LoginComponent
 const routes: Routes = [
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'edit',
     component: EditProfileComponent
+  },
+  {
+    path: 'scanner',
+    component: ScannerComponent
   }
 ];
 
