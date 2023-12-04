@@ -87,9 +87,11 @@
             </div>
           </ion-card-content>
           <ion-item>
+            <ion-icon *ngIf="!user.active" class="icon-down" name="thumbs-down-outline"></ion-icon>
+            <ion-icon *ngIf="user.active" class="icon-up" name="thumbs-up-outline"></ion-icon>
             <ion-label *ngIf="user.active">Usuario Activo</ion-label>
             <ion-label *ngIf="!user.active">Usuario Inactivo</ion-label>
-            <ion-checkbox disabled="true" [(ngModel)]="user.active" slot="start"></ion-checkbox>
+            <!-- <ion-checkbox disabled="true" [(ngModel)]="user.active" slot="start"></ion-checkbox> -->
           </ion-item>
         
         </ion-card>
