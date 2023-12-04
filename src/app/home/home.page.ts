@@ -97,7 +97,7 @@ export class HomePage implements OnInit, OnChanges {
     this.isModalOpen = false;
     this.isModalOpenNew = false;
 
-    let user = {
+    let user: any = {
       name: this.name,
       lastName: this.lastName,
       position: this.position,
@@ -109,14 +109,15 @@ export class HomePage implements OnInit, OnChanges {
       password: this.password,
       file: this.file,
       active: true,
-      userId: `${new Date().getTime()}-${this.phone}`,
+      id: `${new Date().getTime()}-${this.phone}`,
     };
     try {
       let result = await this.signUp();
       if (result) {
-        this.userServices.addUser(user).then((userId) => {
-          this.getUsers();
-        });
+        let id = await this.userServices.addUser(user)
+        user.userId = id;
+        await this.userServices.updateUser(user.userId, user)
+        this.getUsers();
       }
     } catch (error) {
       this.alertStatusError({
@@ -147,9 +148,7 @@ export class HomePage implements OnInit, OnChanges {
   async getUsers() {
     this.userServices.getUsers().subscribe((users) => {
       this.users = users;
-      console.log(users)
       this.usersToDisplay = users;
-      // this.filterByUserLogin()
     });
   }
   async filterByUserLogin () {
@@ -189,14 +188,19 @@ console.log('====================================');
     this.hourOut = this.users[idx]?.hourOut;
   }
 
-  deleteUser(index: any) {
+  async deleteUser(index: any) {
     let user = this.users[index];
-    this.users.splice(index, 1);
-    this.userServices.deleteUser(user.userId).then((users) => {});
-    console.log(this.users);
+    try{
+      await this.userServices.deleteUser(user.userId)
+      this.cancel()
+      this.users.splice(index, 1)
+      this.getUsers()
+    }catch(err: any){
+      console.log(err.message)
+    }
   }
-
-  editUser(){
+  async editUser(){
+    let index = this.users.findIndex((x: any) => x.userId == this.userId)
     let user = {
       name: this.name,
       lastName: this.lastName,
@@ -211,11 +215,14 @@ console.log('====================================');
       userId: this.userId,
     };
 
-    console.log(user)
-    this.userServices.deleteUser(this.userId).then((users) => {
-      this.createUser()
-    }).catch(err => console.log(err.message))
-
+    try{
+      let res = await this.userServices.updateUser(user.userId, user)
+      this.cancel()
+      this.getUsers()
+      console.log(res)
+    }catch(err: any){
+      console.log(err.message)
+    }
   }
 
   async pickImage(event: any) {
