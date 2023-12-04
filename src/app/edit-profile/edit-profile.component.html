@@ -42,15 +42,15 @@
               [(ngModel)]="password"
             ></ion-input>
           </ion-item>
-        <ion-item>
+        <!-- <ion-item>
           <ion-input
             label="Introduzca su Identificación"
             labelPlacement="stacked"
             type="text"
             placeholder="Identificación"
-            [(ngModel)]="id"
+            [(ngModel)]="userId"
           ></ion-input>
-        </ion-item>
+        </ion-item> -->
         <ion-item>
           <ion-input
             label="Introduzca su Puesto"
@@ -112,7 +112,7 @@
                   <ion-button (click)="cancel()">Cancelar</ion-button>
                 </ion-buttons>
                 <ion-buttons slot="end">
-                  <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
+                  <ion-button (click)="editUser()" [strong]="true">Confirmar</ion-button>
                 </ion-buttons>
               </ion-toolbar>
 
