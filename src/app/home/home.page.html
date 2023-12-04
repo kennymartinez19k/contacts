@@ -150,15 +150,6 @@
         </ion-item>
         <ion-item>
           <ion-input
-            label="Introduzca su Identificación"
-            labelPlacement="stacked"
-            type="text"
-            placeholder="Identificación"
-            [(ngModel)]="id"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
             label="Introduzca su Puesto"
             labelPlacement="stacked"
             type="text"
@@ -204,7 +195,7 @@
               <ion-button (click)="cancel()">Cancelar</ion-button>
             </ion-buttons>
             <ion-buttons slot="end">
-              <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
+              <ion-button (click)="editUser()" [strong]="true">Confirmar</ion-button>
             </ion-buttons>
           </ion-toolbar>
 
@@ -315,7 +306,6 @@
             ></ion-input>
             </div>
           </ion-item>
-
         </div>
       </ion-content>
       <div class="button-opt">

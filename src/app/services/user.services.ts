@@ -20,16 +20,17 @@ export class UserService {
     return this._refresh$
   }
 
-  async addUser(user: User) {
+  async addUser(user: any) {
     const userRef = collection(this.firestore, 'contactos');
     const docRef = await addDoc(userRef, user)
     this._refresh$.next()
     return docRef.id
   }
 
+  
+
   getUsers(): Observable<User[]> {
     const q = query(collection(this.firestore, 'contactos'));
-
     return from(getDocs(q)).pipe(
       map((querySnapshot) => {
         const users: User[] = [];
@@ -37,6 +38,7 @@ export class UserService {
           const data = doc.data() as User;
           users.push(data);
         });
+        this._refresh$.next()
         return users;
       })
     );
@@ -52,20 +54,25 @@ export class UserService {
     }
   }
 
-  async updateUser(userId: string, user: User): Promise <void> {
+  async updateUser(userId: string, user: any) {
+    console.log(userId)
     const userRef = doc(this.firestore, 'contactos', userId)
     this._refresh$.next()
     return setDoc(userRef, user, {merge: true})
   }
 
+  
   async deleteUser(userId: string | undefined): Promise<void> {
     if(userId) {
+      console.log(userId)
       const userRef = doc(this.firestore, 'contactos', userId)
       await deleteDoc(userRef)
     } else {
       console.log('ERROR al eliminar SERVICIO')
     }
   }
+
+
 
   async searchUser(searchTerm: any) {
     const userRef = collection(this.firestore, 'contactos')
@@ -96,13 +103,15 @@ export class UserService {
 }
 
 interface User {
-  name: string
-  lastName: string
-  position: string
-  role: string
-  file: string
-  hourIn: string
-  hourOut: string
-  phone: Number
-  userId: string
+  name: any
+  lastName: any
+  position: any
+  role: any
+  hourIn: any
+  hourOut: any
+  phone: any
+  userId: any
+  email: any
+  password: any
+  active: any
 }

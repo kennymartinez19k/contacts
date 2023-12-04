@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../services/user.services';
 import { AuthService } from '../services/auth.service';
 import { AlertController } from '@ionic/angular';
+import { Firestore, collection, addDoc, query, where, getDocs, doc, getDoc, setDoc, deleteDoc, orderBy, startAt, endAt } from '@angular/fire/firestore';
 import { PopoverController } from '@ionic/angular';
 @Component({
   selector: 'app-home',
@@ -19,7 +20,8 @@ export class HomePage implements OnInit, OnChanges {
     public authService: AuthService,
     private router: Router,
     private alertController: AlertController,
-    public popoverController: PopoverController
+    public popoverController: PopoverController,
+    private firestore: Firestore
   ) {}
   message: any = null;
   name: any = null;
@@ -39,6 +41,7 @@ export class HomePage implements OnInit, OnChanges {
   isModalOpenNew = false;
   usersProfile: any;
   active: any = false
+  userId: any = null
   usersToDisplay: any = [];
   imageElement: any = null;
   additionalImgName: any = null;
@@ -88,21 +91,13 @@ export class HomePage implements OnInit, OnChanges {
 
     };
 
-    let usersString = localStorage.getItem('users');
-    if (usersString) {
-      this.users = JSON.parse(usersString);
-      this.users.push(user);
-    } else {
-      this.users = [user];
-    }
-    localStorage.setItem('users', JSON.stringify(this.users));
   }
 
   async createUser() {
     this.isModalOpen = false;
     this.isModalOpenNew = false;
 
-    let user = {
+    let user: any = {
       name: this.name,
       lastName: this.lastName,
       position: this.position,
@@ -114,14 +109,15 @@ export class HomePage implements OnInit, OnChanges {
       password: this.password,
       file: this.file,
       active: true,
-      userId: `${new Date().getTime()}-${this.phone}`,
+      id: `${new Date().getTime()}-${this.phone}`,
     };
     try {
       let result = await this.signUp();
       if (result) {
-        this.userServices.addUser(user).then((userId) => {
-          this.getUsers();
-        });
+        let id = await this.userServices.addUser(user)
+        user.userId = id;
+        await this.userServices.updateUser(user.userId, user)
+        this.getUsers();
       }
     } catch (error) {
       this.alertStatusError({
@@ -153,7 +149,6 @@ export class HomePage implements OnInit, OnChanges {
     this.userServices.getUsers().subscribe((users) => {
       this.users = users;
       this.usersToDisplay = users;
-      this.filterByUserLogin()
     });
   }
   async filterByUserLogin () {
@@ -188,14 +183,46 @@ console.log('====================================');
     this.email = this.users[idx]?.email;
     this.password = this.users[idx]?.password;
     this.active = this.users[idx]?.active;
+    this.userId = this.users[idx]?.userId;
+    this.hourIn = this.users[idx]?.hourIn;
+    this.hourOut = this.users[idx]?.hourOut;
   }
 
-  deleteUser(index: any) {
+  async deleteUser(index: any) {
     let user = this.users[index];
-    this.users.splice(index, 1);
-    this.userServices.deleteUser(user.userId).then((users) => {});
+    try{
+      await this.userServices.deleteUser(user.userId)
+      this.cancel()
+      this.users.splice(index, 1)
+      this.getUsers()
+    }catch(err: any){
+      console.log(err.message)
+    }
+  }
+  async editUser(){
+    let index = this.users.findIndex((x: any) => x.userId == this.userId)
+    let user = {
+      name: this.name,
+      lastName: this.lastName,
+      position: this.position,
+      role: this.role,
+      phone: this.phone,
+      hourIn: this.hourIn,
+      hourOut: this.hourOut,
+      email: this.email,
+      password: this.password,
+      active: this.active,
+      userId: this.userId,
+    };
 
-    console.log(this.users);
+    try{
+      let res = await this.userServices.updateUser(user.userId, user)
+      this.cancel()
+      this.getUsers()
+      console.log(res)
+    }catch(err: any){
+      console.log(err.message)
+    }
   }
 
   async pickImage(event: any) {
