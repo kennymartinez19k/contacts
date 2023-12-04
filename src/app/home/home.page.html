@@ -1,20 +1,51 @@
 <ion-header [translucent]="true" class="header">
-  <ion-toolbar>
+  <div class="content">
+    <ion-icon class="icon ml-1" id="click-trigger" (click)="dismiss = false" name="search-circle-outline"></ion-icon> 
+    <span class="filter-qty">
+      {{ users?.length }} / {{ usersToDisplay?.length }}
+    </span>
     <ion-title>
       Contactos
     </ion-title>
-  </ion-toolbar>
-  <!-- <ion-toolbar width="20%"  class="logueaut"> -->
-    <!-- <ion-title>
-      Cerrar Sesion (click)="loguaout()"
-    </ion-title> -->
-<!-- <ion-content > -->
+  </div>
   <ion-menu-toggle>
     <ion-icon class="icon"  name="menu-outline"></ion-icon>
   </ion-menu-toggle>
-<!-- </ion-content> -->
-  <!-- </ion-toolbar> -->
 </ion-header>
+
+<ion-popover id="popover" trigger="click-trigger" [dismissOnSelect]="dismiss" triggerAction="click">
+  <ng-template>
+    <div class="mb-3">
+      <ion-icon class="icon icon-close" (click)="closPopUp()" name="close-circle-outline"></ion-icon>
+    </div>
+
+    <div class="uk-flex ion-padding">
+      <ion-icon class="icon" (click)="filterByOrdersPerName(searchNames, false)" name="search-circle-outline"></ion-icon> 
+      <input
+        class="uk-input"
+        type="text"
+        placeholder="Digite el Nombre"
+        aria-label="Input"
+        [(ngModel)]="searchNames"
+        (keyup)="filterByOrdersPerName(searchNames, false)"
+      />
+    </div>
+    <ul
+      class="uk-list uk-flex uk-flex-middle ul-list"
+    >
+      <li
+        *ngFor="let item of users; let idx = index"
+        class="li-name"
+       
+        (click)="
+          filterByOrdersPerName(item?.name, true)
+        "
+      >
+        {{ item?.name }}
+      </li>
+    </ul>
+  </ng-template>
+</ion-popover>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
@@ -57,6 +88,11 @@
               
             </div>
           </ion-card-content>
+          <ion-item>
+            <ion-label *ngIf="user.active">Usuario Activo</ion-label>
+            <ion-label *ngIf="!user.active">Usuario Bloqueado</ion-label>
+            <ion-checkbox disabled="true" [(ngModel)]="user.active" slot="start"></ion-checkbox>
+          </ion-item>
         
         </ion-card>
 
@@ -84,6 +120,10 @@
         <ion-icon (click)="cancel()" class="icon" name="arrow-back-circle-outline"></ion-icon>
       </ion-header>
       <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label>Estado del Usuario</ion-label>
+          <ion-checkbox  [(ngModel)]="active" slot="start"></ion-checkbox>
+        </ion-item>
         <ion-item>
           <ion-input
             label="Introduzca su nombre"
@@ -213,129 +253,132 @@
         <ion-icon (click)="cancel()" class="icon" name="arrow-back-circle-outline"></ion-icon>
 
       </ion-header>
-      <ion-content class="ion-padding cont">
-        <ion-item>
-          <ion-input
-            label="Introduzca el nombre"
-            labelPlacement="stacked"
-            type="text"
-            placeholder="Nombre"
-            [(ngModel)]="name"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
-            label="Introduzca el Apellido"
-            labelPlacement="stacked"
-            type="text"
-            placeholder="Apellido"
-            [(ngModel)]="lastName"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
-            label="Introduzca el Correo"
-            labelPlacement="stacked"
-            type="email"
-            placeholder="Correo"
-            [(ngModel)]="email"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
-            label="Introduzca el Password"
-            labelPlacement="stacked"
-            type="password"
-            placeholder="Password"
-            [(ngModel)]="password"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
-            label="Introduzca la Identificación"
-            labelPlacement="stacked"
-            type="text"
-            placeholder="Identificación"
-            [(ngModel)]="id"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input
-            label="Introduzca el Puesto"
-            labelPlacement="stacked"
-            type="text"
-            placeholder="Puesto"
-            [(ngModel)]="position"
-          ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-select label="Seleccione el Rol" placeholder="rol" [(ngModel)]="role">
-            <ion-select-option *ngFor="let rol of roles" [value]="rol">{{rol}}</ion-select-option>
-          </ion-select>
-        </ion-item>
+      <ion-content class="ion-padding ">
+        <div class="cont">
+          <ion-item>
+            <ion-input
+              label="Introduzca el nombre"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Nombre"
+              [(ngModel)]="name"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              label="Introduzca el Apellido"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Apellido"
+              [(ngModel)]="lastName"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              label="Introduzca el Correo"
+              labelPlacement="stacked"
+              type="email"
+              placeholder="Correo"
+              [(ngModel)]="email"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              label="Introduzca el Password"
+              labelPlacement="stacked"
+              type="password"
+              placeholder="Password"
+              [(ngModel)]="password"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              label="Introduzca la Identificación"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Identificación"
+              [(ngModel)]="id"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              label="Introduzca el Puesto"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Puesto"
+              [(ngModel)]="position"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-select label="Seleccione el Rol" placeholder="rol" [(ngModel)]="role">
+              <ion-select-option *ngFor="let rol of roles" [value]="rol">{{rol}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+  
+          <ion-item>
+            <ion-input
+              label="Introduzca el telefono"
+              labelPlacement="stacked"
+              type="number"
+              placeholder="Telefono"
+              [(ngModel)]="phone"
+            ></ion-input>
+          </ion-item>
+          <!-- <ion-item style="position: relative">
+            <label class="img-div" style="position: relative">
+              <font-awesome-icon icon="images" />
+              <input type="file" (change)="pickImage($event)" id="file-img" style="position: absolute; opacity: 0" />
+              </label>
+            <ion-input
+              label="Seleccione una Imagen"
+              labelPlacement="stacked"
+              type="file"
+              placeholder="Imagen"
+              [(ngModel)]="file"
+              (change)="pickImage($event)" id="file-img" style="position: absolute; opacity: 0"
+            ></ion-input>
+              <ion-icon name="images-outline" ></ion-icon>
+              <ion-label *ngIf="!additionalImgName">&nbsp;Seleccione una Imagen</ion-label>
+              <ion-label *ngIf="additionalImgName">&nbsp;{{additionalImgName}}</ion-label>
+            </ion-item> -->
+          <ion-item>
+            <div>
+              <!-- <p>Hora de entrada:{{role}} </p>
+              <ion-datetime-button datetime="hourOut"></ion-datetime-button> -->
+              <ion-input
+              label="Hora de entrada:"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Hora"
+              [(ngModel)]="hourIn"
+            ></ion-input>
+            </div>
+            <!-- <ion-modal class="modal-time" [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime id="datetime1" value="2022-04-21T22:20:00"  presentation="time"></ion-datetime>
+              </ng-template>
+            </ion-modal> -->
+          </ion-item>
+          <ion-item>
+            <div>
+              <!-- <p>Hora de salida: </p>
+              <ion-datetime-button datetime="datetime1"></ion-datetime-button> -->
+              <ion-input
+              label="Hora de salida:"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Hora"
+              [(ngModel)]="hourOut"
+            ></ion-input>
+            </div>
+            <!-- <ion-modal class="modal-time" [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime id="datetime1" value="hourOut"  presentation="time"></ion-datetime>
+              </ng-template>
+            </ion-modal> -->
+          </ion-item>
 
-        <ion-item>
-          <ion-input
-            label="Introduzca el telefono"
-            labelPlacement="stacked"
-            type="number"
-            placeholder="Telefono"
-            [(ngModel)]="phone"
-          ></ion-input>
-        </ion-item>
-        <!-- <ion-item style="position: relative">
-          <label class="img-div" style="position: relative">
-            <font-awesome-icon icon="images" />
-            <input type="file" (change)="pickImage($event)" id="file-img" style="position: absolute; opacity: 0" />
-            </label>
-          <ion-input
-            label="Seleccione una Imagen"
-            labelPlacement="stacked"
-            type="file"
-            placeholder="Imagen"
-            [(ngModel)]="file"
-            (change)="pickImage($event)" id="file-img" style="position: absolute; opacity: 0"
-          ></ion-input>
-            <ion-icon name="images-outline" ></ion-icon>
-            <ion-label *ngIf="!additionalImgName">&nbsp;Seleccione una Imagen</ion-label>
-            <ion-label *ngIf="additionalImgName">&nbsp;{{additionalImgName}}</ion-label>
-          </ion-item> -->
-        <ion-item>
-          <div>
-            <!-- <p>Hora de entrada:{{role}} </p>
-            <ion-datetime-button datetime="hourOut"></ion-datetime-button> -->
-            <ion-input
-            label="Hora de entrada:"
-            labelPlacement="stacked"
-            type="text"
-            placeholder="Hora"
-            [(ngModel)]="hourIn"
-          ></ion-input>
-          </div>
-          <!-- <ion-modal class="modal-time" [keepContentsMounted]="true">
-            <ng-template>
-              <ion-datetime id="datetime1" value="2022-04-21T22:20:00"  presentation="time"></ion-datetime>
-            </ng-template>
-          </ion-modal> -->
-        </ion-item>
-        <ion-item>
-          <div>
-            <!-- <p>Hora de salida: </p>
-            <ion-datetime-button datetime="datetime1"></ion-datetime-button> -->
-            <ion-input
-            label="Hora de salida:"
-            labelPlacement="stacked"
-            type="text"
-            placeholder="Hora"
-            [(ngModel)]="hourOut"
-          ></ion-input>
-          </div>
-          <!-- <ion-modal class="modal-time" [keepContentsMounted]="true">
-            <ng-template>
-              <ion-datetime id="datetime1" value="hourOut"  presentation="time"></ion-datetime>
-            </ng-template>
-          </ion-modal> -->
-        </ion-item>
+        </div>
       </ion-content>
       <div class="button-opt">
         <ion-toolbar>
