@@ -171,20 +171,7 @@ export class HomePage implements OnInit, OnChanges, OnDestroy {
       localStorage.setItem('user', JSON.stringify(this.usersProfile))
     });
   }
-  async filterByUserLogin () {
-    let user = await JSON.parse(localStorage.getItem("user") || "{}")
-     this.users.forEach((us: any) => {
-      if (us.email == user.email) {
-        user.displayName = us.name
-        user.rol = us.rol
-        localStorage.setItem("user", JSON.stringify(user))
-      }
-    });
-    // filter((us: any) => us.email == user.email)
-console.log('====================================');
-console.log(this.users);
-console.log('====================================');
-  }
+  
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {

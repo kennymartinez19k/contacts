@@ -66,6 +66,8 @@ export class EditProfileComponent implements OnInit {
     this.hourOut = this.userInfo.hourOut;
     this.email = this.userInfo.email;
     this.password = this.userInfo.password;
+    this.active  = this.userInfo.active;
+    this.userId = this.userInfo.userId;
   }
   confirm() {
     let user = {
