@@ -39,7 +39,10 @@ export class ScannerComponent  implements OnInit, OnDestroy {
       localStorage.setItem("user", JSON.stringify(res.user))
       this.navigate('home')
     }).catch((e) => {
-      this.presentAlert()
+      this.presentAlert({
+          header: 'Informacion Incorrrecta',
+          msg: 'Verifique la informacion Suministrada o contacte su probeedor'
+        })
       this.formLogin = new FormGroup({
         email: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required])
@@ -54,11 +57,11 @@ export class ScannerComponent  implements OnInit, OnDestroy {
   }
 
   
-  async presentAlert() {
+  async presentAlert(alertMsg: any) {
     const alert = await this.alertController.create({
-      header: 'Informacion Incorrrecta',
+      header: alertMsg.header,
       subHeader: '',
-      message: 'Verifique la informacion Suministrada o contacte su probeedor',
+      message: alertMsg.msg,
       buttons: ['OK'],
     });
 
@@ -122,6 +125,10 @@ export class ScannerComponent  implements OnInit, OnDestroy {
     const permission = await this.checkPermission ()
 
     if (!permission) {
+      this.presentAlert({
+        header: 'Permisos',
+        msg: 'Verifique los permisos de la app de la camara'
+      })
       return;
     }
 
