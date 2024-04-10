@@ -1,5 +1,19 @@
 .container{
-    margin-top: 100px;
+    height: 93vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-color: #2f4078;
+}
+.row{
+    background-color: #fff;
+    
+    border: solid 1px #dcd9d9;
+    padding: 16px;
+    // width: 92%;
+}
+.col {
+    // padding: 37px;
 }
 .item{
     margin: 15px 0px;
@@ -20,11 +34,9 @@
     padding: 10px 0px;
   }
 
-@media only screen and (min-width:426px) {
-
-    .container{
-        display: flex;
-        justify-content: center;
+@media only screen and (max-width:426px) {
+    .row {
+        width: 92%;
     }
 }
 .logo{

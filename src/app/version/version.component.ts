@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
 export class VersionComponent {
     constructor (private router: Router) {}
     version: string = '1.1.1';  
-    date: string = 'Dic 08, 2023';
-    authors: string = 'Wilson Soto, Kenny Martinez, Eddy Saul Soto';
-    copyright: string = `ITSC Logistics, 2023 `;
+    date: string = 'Mar 19, 2024';
+    authors: string = 'Wilson Soto, Kenny Martinez, Eddy Saul Soto, Eliam Manuel Contreras, Luis Henrry Franco';
+    tuition: string = '2021-0372, 2020-1832, 2021-0154, 2021-0051, 2022-0297';
+    copyright: string = `ITSC Developers, 2024 `;
 
     goToHome() {
         this.router.navigate(['home'])

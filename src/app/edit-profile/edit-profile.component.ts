@@ -9,33 +9,28 @@ import { UserService } from '../services/user.services';
   styleUrls: ['edit-profile.component.scss'],
 })
 export class EditProfileComponent implements OnInit {
-    constructor (private router: Router,
-      private userServices: UserService
-      ) {}
+  constructor(private router: Router, private userServices: UserService) {}
 
-  users: any = []
-  message: any = null
-  name: any = null
-  lastName: any = null
-  position: any = null
-  role: any = null
-  file: any = null
-  roles: any = [
-    "Admin", "Usuario"
-  ]
-  hourIn: any = null
-  hourOut: any = null
-  phone: any = null
-  email: any = null
-  password: any = null
-  userInfo: any =  {};
+  users: any = [];
+  message: any = null;
+  name: any = null;
+  lastName: any = null;
+  position: any = null;
+  role: any = null;
+  file: any = null;
+  roles: any = ['Admin', 'Usuario'];
+  hourIn: any = null;
+  hourOut: any = null;
+  phone: any = null;
+  email: any = null;
+  password: any = null;
+  userInfo: any = {};
   active: any = null;
   userId: any = null;
 
   cancel() {
-    this.router.navigate(['home'])
+    this.router.navigate(['home']);
 
-    
     this.name = null;
     this.lastName = null;
     this.userId = null;
@@ -45,17 +40,19 @@ export class EditProfileComponent implements OnInit {
     this.hourIn = null;
     this.hourOut = null;
     this.email = null;
-    this.password = null
-    this.active  = null;
+    this.password = null;
+    this.active = null;
     this.userId = null;
   }
 
   async ngOnInit() {
-    this.userInfo = await JSON.parse(localStorage.getItem("user") || "{}")
-    this.setValueUser()
-      
+    this.userInfo = await JSON.parse(localStorage.getItem('user') || '{}');
+    this.setValueUser();
   }
-  setValueUser () {
+  setValueUser() {
+    console.log('====================================');
+    console.log(this.userInfo);
+    console.log('====================================');
     this.name = this.userInfo.name;
     this.lastName = this.userInfo.lastName;
     this.userId = this.userInfo.userId;
@@ -66,7 +63,7 @@ export class EditProfileComponent implements OnInit {
     this.hourOut = this.userInfo.hourOut;
     this.email = this.userInfo.email;
     this.password = this.userInfo.password;
-    this.active  = this.userInfo.active;
+    this.active = this.userInfo.active;
     this.userId = this.userInfo.userId;
   }
   confirm() {
@@ -80,23 +77,22 @@ export class EditProfileComponent implements OnInit {
       hourIn: this.hourIn,
       hourOut: this.hourOut,
       email: this.email,
-      password: this.password
-    }
+      password: this.password,
+    };
 
-    let usersString = localStorage.getItem("users")
-    if(usersString){
-      this.users =  JSON.parse(usersString)
-      this.users.push(user)
-    }else{
-      this.users = [user]
+    let usersString = localStorage.getItem('users');
+    if (usersString) {
+      this.users = JSON.parse(usersString);
+      this.users.push(user);
+    } else {
+      this.users = [user];
     }
-    localStorage.setItem("users", JSON.stringify(this.users))
-    this.router.navigate(['home'])
-
+    localStorage.setItem('users', JSON.stringify(this.users));
+    this.router.navigate(['home']);
   }
 
-  async editUser(){
-    let index = this.users.findIndex((x: any) => x.userId == this.userId)
+  async editUser() {
+    let index = this.users.findIndex((x: any) => x.userId == this.userId);
     let user = {
       name: this.name,
       lastName: this.lastName,
@@ -110,14 +106,13 @@ export class EditProfileComponent implements OnInit {
       active: this.active,
       userId: this.userId,
     };
-    try{
-      let res = await this.userServices.updateUser(user.userId, user)
-      this.router.navigate(['home'])
-      this.cancel()
-      console.log(res)
-    }catch(err: any){
-      console.log(err.message)
+    try {
+      let res = await this.userServices.updateUser(user.userId, user);
+      this.router.navigate(['home']);
+      this.cancel();
+      console.log(res);
+    } catch (err: any) {
+      console.log(err.message);
     }
   }
-  
 }
