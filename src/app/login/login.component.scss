@@ -1,3 +1,10 @@
+*{
+    color: #fff;
+}
+
+ion-input, ion-label{
+    color: #000 !important;
+}
 .container{
     height: 93vh;
     align-items: center;
