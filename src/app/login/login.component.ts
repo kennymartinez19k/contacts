@@ -21,7 +21,7 @@ export class LoginComponent  implements OnInit, OnDestroy {
 
     constructor(public authService: AuthService, private router: Router, private alertController: AlertController ) { 
     this.formLogin = new FormGroup({
-      email: new FormControl('km@gm.com', [Validators.required]),
+      email: new FormControl('admin@admin.com', [Validators.required]),
       password: new FormControl('123456', [Validators.required])
     })
   }
@@ -35,7 +35,6 @@ export class LoginComponent  implements OnInit, OnDestroy {
     let form = this.formLogin.value
     console.log(form)
     this.authService.login(form).then( (res) => {
-      console.log(res,"Login")
       localStorage.setItem("user", JSON.stringify(res.user))
       this.navigate('home')
     }).catch((e) => {
