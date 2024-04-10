@@ -1,27 +1,30 @@
 <ion-content>
   <div class="container">
-    <div>
-      <ion-title class="ion-no-padding ion-text-center">Iniciar sesion</ion-title>
-      <p class="ion-text-center">Introduzca su usuario y contraseña para iniciar sesion</p>
-      <form [formGroup]="formLogin" class="ion-margin">
-        <ion-item>
-          <ion-label position="floating">Email</ion-label>
-          <ion-input type="email" name="email" formControlName="email" (keyup)="isBtnDisable()"></ion-input>
-          <ion-button slot="end" fill="clear"  class="seeClient">
-            <ion-icon name="mail-outline"></ion-icon>
-          </ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Clave</ion-label>
-          <ion-input [type]="changeType" name="psw" formControlName="password" (keyup)="isBtnDisable()"></ion-input>
-          <ion-button slot="end" fill="clear"  class="seeClient" (click)="isChangeType(changeType)">
-            <ion-icon *ngIf="showPsw == true" name="eye-outline" color="warning" class="iconEye"></ion-icon>
-            <ion-icon *ngIf="showPsw == false" name="eye-off-outline" color="warning" class="iconEye"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </form>
-      <ion-button id="open-loading" expand="full" [disabled]="isDisable" (click)="login()" class="ion-margin">Iniciar Sesion</ion-button>
-      <ion-button id="open-loading" expand="full" (click)="navigate('scanner')" class="ion-margin">Iniciar con scanear ID</ion-button>
+    <div class="row">
+      <div class="col">
+        <ion-title class="ion-no-padding ion-text-center">Iniciar sesion</ion-title>
+        <p class="ion-text-center">Introduzca su usuario y contraseña para iniciar sesion</p>
+        <form [formGroup]="formLogin" class="ion-margin">
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" name="email" formControlName="email" (keyup)="isBtnDisable()"></ion-input>
+            <ion-button slot="end" fill="clear"  class="seeClient">
+              <ion-icon name="mail-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Clave</ion-label>
+            <ion-input [type]="changeType" name="psw" formControlName="password" (keyup)="isBtnDisable()"></ion-input>
+            <ion-button slot="end" fill="clear"  class="seeClient" (click)="isChangeType(changeType)">
+              <ion-icon *ngIf="showPsw == true" name="eye-outline" color="warning" class="iconEye"></ion-icon>
+              <ion-icon *ngIf="showPsw == false" name="eye-off-outline" color="warning" class="iconEye"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </form>
+        <ion-button id="open-loading" expand="full" [disabled]="isDisable" (click)="login()" class="ion-margin">Iniciar Sesion</ion-button>
+        <ion-button id="open-loading" expand="full" (click)="navigate('scanner')" class="ion-margin">Iniciar con scanear ID</ion-button>
+  
+      </div>
 
     </div>
 

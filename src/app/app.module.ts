@@ -11,30 +11,28 @@ import { HomePage } from './home/home.page';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { provideStorage,getStorage } from '@angular/fire/storage';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideStorage, getStorage } from '@angular/fire/storage';
 import { RegisterComponent } from './register/register.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { VersionComponent } from './version/version.component';
 import { ScannerComponent } from './scanner/scanner.component';
-
 @NgModule({
   declarations: [
     AppComponent,
-    HomePage, 
+    HomePage,
     LoginComponent,
     RegisterComponent,
     SidebarComponent,
     EditProfileComponent,
     VersionComponent,
-    ScannerComponent
-
+    ScannerComponent,
   ],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
     BrowserModule,
     FormsModule,
@@ -42,8 +40,6 @@ import { ScannerComponent } from './scanner/scanner.component';
     AppRoutingModule,
     IonicModule.forRoot(),
     ReactiveFormsModule,
-
-
 
     provideFirebaseApp(() => initializeApp(environment)),
     provideAuth(() => getAuth()),
